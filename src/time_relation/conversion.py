@@ -1,11 +1,11 @@
 import datetime
 
-def acquire_factors_of_datetime(_datetime_) -> tuple:
-    year = str(_datetime_.year).zfill(4)
-    month = str(_datetime_.month).zfill(2)
-    day = str(_datetime_.day).zfill(2)
-    hour = str(_datetime_.hour).zfill(2)
-    minute = str(_datetime_.minute).zfill(2)
+def acquire_factors_of_datetime(target_datetime) -> tuple:
+    year = str(target_datetime.year).zfill(4)
+    month = str(target_datetime.month).zfill(2)
+    day = str(target_datetime.day).zfill(2)
+    hour = str(target_datetime.hour).zfill(2)
+    minute = str(target_datetime.minute).zfill(2)
     return year,month,day,hour,minute
 
 def jst_to_utc(jst_datetime) -> datetime.datetime:
