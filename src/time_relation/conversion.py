@@ -1,6 +1,6 @@
 import datetime
 
-def acquire_factors_of_datetime(target_datetime) -> tuple:
+def get_factors_of_datetime(target_datetime) -> tuple:
     year = str(target_datetime.year).zfill(4)
     month = str(target_datetime.month).zfill(2)
     day = str(target_datetime.day).zfill(2)
