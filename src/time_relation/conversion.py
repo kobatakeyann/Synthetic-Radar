@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 
-def get_factors_of_datetime(target_datetime) -> tuple:
-    year = str(target_datetime.year).zfill(4)
-    month = str(target_datetime.month).zfill(2)
-    day = str(target_datetime.day).zfill(2)
-    hour = str(target_datetime.hour).zfill(2)
-    minute = str(target_datetime.minute).zfill(2)
+def split_datetime(target_dt) -> tuple:
+    year = str(target_dt.year).zfill(4)
+    month = str(target_dt.month).zfill(2)
+    day = str(target_dt.day).zfill(2)
+    hour = str(target_dt.hour).zfill(2)
+    minute = str(target_dt.minute).zfill(2)
     return year,month,day,hour,minute
 
 def jst_to_utc(jst_datetime) -> datetime:
