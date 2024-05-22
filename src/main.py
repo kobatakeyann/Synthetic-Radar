@@ -19,7 +19,7 @@ from bisect import bisect_left
 
 from util.path_complement import generate_path
 from util.tempfile_name import generate_random_strings
-from time_relation.conversion import jst_to_utc, acquire_factors_of_datetime
+from time_relation.conversion import PaddingDate, jst_to_utc
 from map.blank_map import make_blank_map
 from map.elevation_map import make_elevation_map
 from gif.gif import convert_jpg_to_gif
@@ -85,9 +85,16 @@ def load_jma_gpv(jst_datetime):
     '''
     
     # 0補完された日付文字列の取得
-    utc_date_time = jst_to_utc(jst_datetime)
-    year, month, day, hour, minute = acquire_factors_of_datetime(utc_date_time)
-    _url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{day}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
+    utc_datetime = jst_to_utc(jst_datetime)
+    target_datetime = PaddingDate(utc_datetime)
+    year = target_datetime.year
+    month = target_datetime.month
+    day = target_datetime.day
+    hour = target_datetime.hour
+    minute = target_datetime.minute
+
+    _url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/"\
+           f"{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
 
     # url先から配列を取得
     try:
@@ -165,7 +172,12 @@ def make_precipitation_figure(jst_datetime,elevation):
 
     # 観測時間のプロット
     print(jst_datetime)
-    year, month, day, hour, minute = acquire_factors_of_datetime(jst_datetime)
+    target_datetime = PaddingDate(jst_datetime)
+    year = target_datetime.year
+    month = target_datetime.month
+    day = target_datetime.day
+    hour = target_datetime.hour
+    minute = target_datetime.minute
     ax = plt.gcf().get_axes()[0]
     ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
 
@@ -236,7 +248,12 @@ def make_continuous_figures(startdate,enddate,elevation):
         cbar.set_label(r"[$\mathrm{mm\,h^{-1}}$]", labelpad=label_loc, y=1.15, rotation=0, fontsize=label_size)
         # 観測時間のプロット
         print(exe_jsttime)
-        year, month, day, hour, minute = acquire_factors_of_datetime(exe_jsttime)
+        target_datetime = PaddingDate(exe_jsttime)
+        year = target_datetime.year
+        month = target_datetime.month
+        day = target_datetime.day
+        hour = target_datetime.hour
+        minute = target_datetime.minute
         ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
 
         # 図の保存
@@ -309,7 +326,12 @@ def make_figures_of_group(date_list,group_name,elevation):
             cbar.set_label(r"[$\mathrm{mm\,h^{-1}}$]", labelpad=label_loc, y=1.15, rotation=0, fontsize=label_size)
             # 観測時間のプロット
             print(exe_jsttime)
-            year, month, day, hour, minute = acquire_factors_of_datetime(exe_jsttime)
+            target_datetime = PaddingDate(exe_jsttime)
+            year = target_datetime.year
+            month = target_datetime.month
+            day = target_datetime.day
+            hour = target_datetime.hour
+            minute = target_datetime.minute
             ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
 
             # 図の保存
