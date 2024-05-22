@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 class PaddingDate:
-    def __init__(self,target_dt):
+    def __init__(self,target_dt:datetime):
         self.target_dt = target_dt
         self.year = str(target_dt.year).zfill(4)
         self.month = str(target_dt.month).zfill(2)
