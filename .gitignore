@@ -161,7 +161,3 @@ cython_debug/
 
 img
 data
-/src/util/*
-/src/gif/__pycache__/*
-/src/map/__pycache__/*
-/src/time_relation/__pycache__/*
