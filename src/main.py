@@ -38,12 +38,14 @@ def load_jma_gpv(jst_datetime):
     # 0補完された日付文字列の取得
     utc_datetime = jst_to_utc(jst_datetime)
     target_datetime = PaddingDate(utc_datetime)
-    year = target_datetime.year
-    month = target_datetime.month
-    day = target_datetime.day
-    hour = target_datetime.hour
-    minute = target_datetime.minute
-
+    year, month, day, hour, minute = (
+        target_datetime.year,
+        target_datetime.month,
+        target_datetime.day,
+        target_datetime.hour,
+        target_datetime.minute,
+    )
+   
     _url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/"\
            f"{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
 
@@ -124,11 +126,13 @@ def make_precipitation_figure(jst_datetime,elevation):
     # 観測時間のプロット
     print(jst_datetime)
     target_datetime = PaddingDate(jst_datetime)
-    year = target_datetime.year
-    month = target_datetime.month
-    day = target_datetime.day
-    hour = target_datetime.hour
-    minute = target_datetime.minute
+    year, month, day, hour, minute = (
+        target_datetime.year,
+        target_datetime.month,
+        target_datetime.day,
+        target_datetime.hour,
+        target_datetime.minute,
+    )    
     ax = plt.gcf().get_axes()[0]
     ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
 
@@ -200,11 +204,13 @@ def make_continuous_figures(startdate,enddate,elevation):
         # 観測時間のプロット
         print(exe_jsttime)
         target_datetime = PaddingDate(exe_jsttime)
-        year = target_datetime.year
-        month = target_datetime.month
-        day = target_datetime.day
-        hour = target_datetime.hour
-        minute = target_datetime.minute
+        year, month, day, hour, minute = (
+            target_datetime.year,
+            target_datetime.month,
+            target_datetime.day,
+            target_datetime.hour,
+            target_datetime.minute,
+        )    
         ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
 
         # 図の保存
@@ -278,11 +284,13 @@ def make_figures_of_group(date_list,group_name,elevation):
             # 観測時間のプロット
             print(exe_jsttime)
             target_datetime = PaddingDate(exe_jsttime)
-            year = target_datetime.year
-            month = target_datetime.month
-            day = target_datetime.day
-            hour = target_datetime.hour
-            minute = target_datetime.minute
+            year, month, day, hour, minute = (
+                target_datetime.year,
+                target_datetime.month,
+                target_datetime.day,
+                target_datetime.hour,
+                target_datetime.minute,
+            )    
             ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
 
             # 図の保存
