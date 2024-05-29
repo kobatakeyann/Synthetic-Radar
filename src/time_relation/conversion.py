@@ -1,12 +1,17 @@
 from datetime import datetime, timedelta
 
 class PaddingDate:
-    def __init__(self,target_dt:datetime):
-        self.year = str(target_dt.year).zfill(4)
-        self.month = str(target_dt.month).zfill(2)
-        self.day = str(target_dt.day).zfill(2)
-        self.hour = str(target_dt.hour).zfill(2)
-        self.minute = str(target_dt.minute).zfill(2)
+    def __init__(self,target_dt:datetime) -> None:
+        self.year, self.month, self.day, self.hour, self.minute = (
+            self.pad_with_zero(target_dt.year,4),
+            self.pad_with_zero(target_dt.month,2),
+            self.pad_with_zero(target_dt.day,2),
+            self.pad_with_zero(target_dt.hour,2),
+            self.pad_with_zero(target_dt.minute,2)
+        )
+
+    def pad_with_zero(self,datatime_fator:int,digit:int) -> str:
+        return str(datatime_fator).zfill(digit)
 
 def jst_to_utc(datetime) -> datetime:
     time_difference = timedelta(hours=9)
