@@ -46,8 +46,7 @@ def load_jma_gpv(jst_datetime):
         target_datetime.minute,
     )
    
-    _url = "http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/"\
-           f"{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
+    _url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
 
     # url先から配列を取得
     try:
