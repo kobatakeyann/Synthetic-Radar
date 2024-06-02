@@ -46,21 +46,21 @@ def load_jma_gpv(jst_datetime):
         target_datetime.minute,
     )
    
-    _url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
+    url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
 
     # url先から配列を取得
     try:
         random_strings = generate_random_strings(5)
         tmpfile = f"/tmp/tmp{random_strings}"
-        req = urllib.request.Request(_url)
+        req = urllib.request.Request(url)
         with urllib.request.urlopen(req) as _res:
-            _urlData = _res.read()
+            urlData = _res.read()
             with open(tmpfile, mode='wb') as f:
-                f.write(_urlData)
-                _tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
-                _data = nakametpy.jma.load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=_tar_contentname)
+                f.write(urlData)
+                tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
+                data = nakametpy.jma.load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
                 os.remove(tmpfile)
-                return _data
+                return data
             
     except urllib.error.HTTPError as err:
         print(f"{jst_datetime}: {err.code}")
