@@ -10,8 +10,8 @@ class PaddingDate:
             self.pad_with_zero(target_dt.minute,2)
         )
 
-    def pad_with_zero(self,datatime_fator:int,digit:int) -> str:
-        return str(datatime_fator).zfill(digit)
+    def pad_with_zero(self,datatime_factor:int,digit:int) -> str:
+        return str(datatime_factor).zfill(digit)
 
 def jst_to_utc(datetime) -> datetime:
     time_difference = timedelta(hours=9)
