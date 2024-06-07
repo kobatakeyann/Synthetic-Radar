@@ -1,6 +1,5 @@
 import os
 import pickle
-import datetime
 import urllib.request
 import urllib.error
 import nakametpy.jma
@@ -14,6 +13,7 @@ import matplotlib.axes as maxes
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
+from datetime import datetime
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from bisect import bisect_left
 
@@ -26,9 +26,7 @@ from gif.gif import convert_jpg_to_gif
 from constant import *
 
 
-####################################################################################
-
-def load_jma_gpv(jst_datetime):
+def load_jma_gpv(jst_datetime:datetime) -> None:
     '''全国合成レーダーGPVの値の配列を返す関数
 
     Arg:
@@ -53,8 +51,8 @@ def load_jma_gpv(jst_datetime):
         random_strings = generate_random_strings(5)
         tmpfile = f"/tmp/tmp{random_strings}"
         req = urllib.request.Request(url)
-        with urllib.request.urlopen(req) as _res:
-            urlData = _res.read()
+        with urllib.request.urlopen(req) as res:
+            urlData = res.read()
             with open(tmpfile, mode='wb') as f:
                 f.write(urlData)
                 tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
