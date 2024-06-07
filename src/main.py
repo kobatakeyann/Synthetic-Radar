@@ -52,9 +52,9 @@ def load_jma_gpv(jst_datetime:datetime) -> None:
         tmpfile = f"/tmp/tmp{random_strings}"
         req = urllib.request.Request(url)
         with urllib.request.urlopen(req) as res:
-            urlData = res.read()
+            res_data = res.read()
             with open(tmpfile, mode='wb') as f:
-                f.write(urlData)
+                f.write(res_data)
                 tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
                 data = nakametpy.jma.load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
                 os.remove(tmpfile)
