@@ -17,9 +17,3 @@ def jst_to_utc(datetime) -> datetime:
     time_difference = timedelta(hours=9)
     utc_dt = datetime - time_difference
     return utc_dt
-
-def utc_to_jst(datetime) -> datetime:
-    time_difference = timedelta(hours=9)
-    jst_dt = datetime + time_difference
-    return jst_dt 
-
