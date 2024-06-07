@@ -1,7 +1,5 @@
 import os
 import pickle
-import urllib.request
-import urllib.error
 import nakametpy.jma
 
 import numpy as np
@@ -13,7 +11,12 @@ import matplotlib.axes as maxes
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
+
+from numpy.ma import MaskedArray
 from datetime import datetime
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
+from nakametpy.jma import load_jmara_grib2
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from bisect import bisect_left
 
@@ -26,7 +29,7 @@ from gif.gif import convert_jpg_to_gif
 from constant import *
 
 
-def load_jma_gpv(jst_datetime:datetime) -> None:
+def load_jma_gpv(jst_datetime:datetime) -> MaskedArray:
     '''全国合成レーダーGPVの値の配列を返す関数
     '''
     
@@ -42,24 +45,22 @@ def load_jma_gpv(jst_datetime:datetime) -> None:
     )
    
     url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
-
-    # url先から配列を取得
     random_strings = generate_random_string(5)
     tmpfile = f"/tmp/tmp{random_strings}"
+    # url先から配列を取得
     try:
-        req = urllib.request.Request(url)
-        with urllib.request.urlopen(req) as res:
+        req = Request(url)
+        with urlopen(req) as res:
             res_data = res.read()
-    except urllib.error.HTTPError as err:
+    except HTTPError as err:
         print(f"{jst_datetime}: {err.code}")
-
-    except urllib.error.URLError as err:
+    except URLError as err:
         print(f"{jst_datetime}: {err.reason}")
 
     with open(tmpfile, mode='wb') as f:
         f.write(res_data)
         tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
-        data = nakametpy.jma.load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
+        data : MaskedArray = load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
         os.remove(tmpfile)
         return data
 
