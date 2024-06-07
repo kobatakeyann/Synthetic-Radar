@@ -1,13 +1,12 @@
-import random
-import string
+from random import choices
+from string import ascii_letters
 
-
-def generate_random_strings(letter_num) -> str:
+def generate_random_string(str_length:int) -> str:
     """
     Arg
-    letter_num (int): The length of string that you'd like to generate. 
+    str_length (int): The length of string that you'd like to generate. 
     """
-    random_letters = random.choices(string.ascii_letters, k=letter_num)
-    random_string = "".join(random_letters)
+    random_strings = choices(ascii_letters, k=str_length)
+    random_string = "".join(random_strings)
     return random_string
 
