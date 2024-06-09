@@ -1,7 +1,7 @@
 from pathlib import Path
 
 def generate_path(path:str) -> str:
-  """絶対パスを生成
+  """generate the absolute path 
 
   Arg:
     path (str): synthetic_radarからの相対パス
