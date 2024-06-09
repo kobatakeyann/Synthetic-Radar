@@ -45,7 +45,7 @@ zoom_level = 8
 
 
 # 緯度経度目盛りの設定
-deg_min_format = False
+deg_min_format = True
 latlon_ticks_interval = 0.5
 
 # タイトルのfontsize

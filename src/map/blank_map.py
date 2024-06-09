@@ -2,20 +2,19 @@ import numpy as np
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shapereader
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
 
-def format_longitude(lon,pos):
+def format_longitude(lon:float,_) -> str:
     degrees = int(lon)
-    minutes = abs(int((lon - degrees) * 60))
+    minutes = abs(int((lon-degrees) * 60))
     if minutes == 0:
         minutes = "00"
     return f'{degrees}°{minutes}\'E'
 
-def format_latitude(lat,pos):
+def format_latitude(lat:float,_) -> str:
     degrees = int(lat)
-    minutes = abs(int((lat - degrees) * 60))
+    minutes = abs(int((lat-degrees) * 60))
     if minutes == 0:
         minutes = "00"
     return f'{degrees}°{minutes}\'N'

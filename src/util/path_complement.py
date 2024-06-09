@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def generate_path(path) -> str:
+def generate_path(path:str) -> str:
   """絶対パスを生成
 
   Arg:

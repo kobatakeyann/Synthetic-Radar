@@ -13,7 +13,7 @@ import matplotlib.cm as cm
 
 
 from numpy.ma import MaskedArray
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 from nakametpy.jma import load_jmara_grib2
@@ -44,7 +44,7 @@ def load_jma_gpv(jst_datetime:datetime) -> MaskedArray:
         target_datetime.minute,
     )
    
-    url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{year}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
+    url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{day}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
     random_strings = generate_random_string(5)
     tmpfile = f"/tmp/tmp{random_strings}"
     # url先から配列を取得
@@ -59,10 +59,10 @@ def load_jma_gpv(jst_datetime:datetime) -> MaskedArray:
 
     with open(tmpfile, mode='wb') as f:
         f.write(res_data)
-        tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
-        data : MaskedArray = load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
-        os.remove(tmpfile)
-        return data
+    tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
+    data : MaskedArray = load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
+    os.remove(tmpfile)
+    return data
 
 def make_precipitation_figure(jst_datetime,elevation):
     '''全国合成レーダーGPVの値を用いて雨雲レーダーの図を作る関数
@@ -211,19 +211,20 @@ def make_continuous_figures(startdate,enddate,elevation):
         save_dir = generate_path(f"/img/{year}/{month}/{day}")
         filename = f"{year}{month}{day}{hour}{minute}.jpg"
         os.makedirs(save_dir,exist_ok=True)
-        copied_fig.savefig(f"{save_dir}/{filename}", dpi=100, pad_inches=0.1)
+        # copied_fig.savefig(f"{save_dir}/{filename}", dpi=100, pad_inches=0.1)
+        # copied_fig.savefig(f"{filename}", dpi=100, pad_inches=0.1)
 
         plt.clf()
         plt.close()
 
         # gifの作成
-        if int(hour) == 23 and int(minute) == 50:
-            gif_title = f"{year}{month}{day}.gif"
-            print("Converting figures into gif…")
-            convert_jpg_to_gif(save_dir,save_dir,gif_title)
-            print("Gif is successfully made.")
+        # if int(hour) == 23 and int(minute) == 50:
+        #     gif_title = f"{year}{month}{day}.gif"
+        #     print("Converting figures into gif…")
+        #     convert_jpg_to_gif(save_dir,save_dir,gif_title)
+        #     print("Gif is successfully made.")
 
-        exe_jsttime += datetime.timedelta(minutes=10)
+        exe_jsttime += timedelta(minutes=10)
 
     print("Figures are successfully made.")
 
@@ -313,7 +314,7 @@ def make_figures_of_group(date_list,group_name,elevation):
 
 
 # 以下で実行
-startdate = datetime.datetime(2023,8,23,0,0)
-enddate = datetime.datetime(2023,8,25,0,0)
+startdate = datetime(2023,8,23,0,0)
+enddate = datetime(2023,8,25,0,0)
 elevation = False
-# make_continuous_figures(startdate,enddate,elevation)
+make_continuous_figures(startdate,enddate,elevation)
