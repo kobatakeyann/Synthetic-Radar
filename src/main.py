@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from plot.rainfall_map import make_continuous_figures
 
