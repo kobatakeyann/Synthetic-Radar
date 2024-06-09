@@ -11,58 +11,18 @@ import matplotlib.axes as maxes
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
-
-from numpy.ma import MaskedArray
 from datetime import datetime, timedelta
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError, URLError
-from nakametpy.jma import load_jmara_grib2
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from bisect import bisect_left
 
 from util.path_complement import generate_path
-from util.tempfile_name import generate_random_string
+from gpv.data_acquisition import load_jma_gpv
 from time_relation.conversion import PaddingDate, jst_to_utc
 from map.blank_map import make_blank_map
 from map.elevation_map import make_elevation_map
 from gif.gif import convert_jpg_to_gif
 from constant import *
 
-
-def load_jma_gpv(jst_datetime:datetime) -> MaskedArray:
-    '''全国合成レーダーGPVの値の配列を返す関数
-    '''
-    
-    # 0補完された日付文字列の取得
-    utc_datetime = jst_to_utc(jst_datetime)
-    target_datetime = PaddingDate(utc_datetime)
-    year, month, day, hour, minute = (
-        target_datetime.year,
-        target_datetime.month,
-        target_datetime.day,
-        target_datetime.hour,
-        target_datetime.minute,
-    )
-   
-    url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{day}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
-    random_strings = generate_random_string(5)
-    tmpfile = f"/tmp/tmp{random_strings}"
-    # url先から配列を取得
-    try:
-        req = Request(url)
-        with urlopen(req) as res:
-            res_data = res.read()
-    except HTTPError as err:
-        print(f"{jst_datetime}: {err.code}")
-    except URLError as err:
-        print(f"{jst_datetime}: {err.reason}")
-
-    with open(tmpfile, mode='wb') as f:
-        f.write(res_data)
-    tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
-    data : MaskedArray = load_jmara_grib2(tmpfile,tar_flag=True,tar_contentname=tar_contentname)
-    os.remove(tmpfile)
-    return data
 
 def make_precipitation_figure(jst_datetime,elevation):
     '''全国合成レーダーGPVの値を用いて雨雲レーダーの図を作る関数
