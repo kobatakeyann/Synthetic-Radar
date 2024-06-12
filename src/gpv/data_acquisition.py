@@ -5,7 +5,7 @@ from numpy.ma import MaskedArray
 
 from nakametpy.jma import load_jmara_grib2
 
-from api.api_calling import request_to_api, read_response, write_down_res
+from api.api_calling import get_response, read_response, write_down_res
 from time_relation.conversion import PaddingDate, jst_to_utc
 
 
@@ -26,7 +26,7 @@ def load_jma_gpv(jst_datetime:datetime) -> MaskedArray:
 
     # API calling
     url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{day}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
-    req = request_to_api(url)
+    req = get_response(url)
     res_data = read_response(req)
     data_file = write_down_res(res_data)
 
