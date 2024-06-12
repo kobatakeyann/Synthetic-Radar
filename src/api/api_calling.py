@@ -5,13 +5,12 @@ from util.tempfile_name import generate_random_string
 from util.path_complement import generate_path
 
 
-def request_to_api(url:str) -> Request:
+def get_response(url:str) -> Request:
     try:
         req = Request(url)
+        return req
     except URLError as err:
         raise URLError(err)
-    else:
-        return req
 
 def read_response(req:Request):
     try:
