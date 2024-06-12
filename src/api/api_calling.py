@@ -23,8 +23,8 @@ def read_response(req:Request):
         return res_data
 
 def write_down_res(res_data) -> str:
-    random_strings = generate_random_string(100)
-    tmpfile = generate_path(f"/tmp/tmp{random_strings}.tar")
+    random_string = generate_random_string(100)
+    tmpfile = generate_path(f"/tmp/tmp{random_string}.tar")
     with open(tmpfile, mode='wb') as f:
         f.write(res_data)
     output_path = tmpfile
