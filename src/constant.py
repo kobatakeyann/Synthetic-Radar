@@ -20,34 +20,25 @@ title_fontsize              (float)     : 図のタイトルの文字の大き�
 """
 
 
-#描画領域の設定
-# lon_left, lon_right = 120, 150
-# lat_bottom, lat_top = 22.4, 47.6
-# lon_left, lon_right = 129.2, 132.2
-# lat_bottom, lat_top = 30.9, 34.1
-# lon_left, lon_right = 129.68, 130.94
-# lat_bottom, lat_top = 33.14, 34
-lon_left, lon_right = 129.88, 130.74
-lat_bottom, lat_top = 33.34, 34
+# 描画領域の設定
+LON_LEFT, LON_RIGHT = 129.88, 130.74
+LAT_BOTTOM, LAT_TOP = 33.34, 34
 
-#colorbarの設定
-label_loc = 3
-label_size = 12
-# levels = np.arange(1,51,5)
-# levels = np.array([1,5,10,16,25,32,48,64,81])
-levels = np.array([1,5,10,15,20,25,30,35,40,45])
+# colorbarの設定
+LABEL_LOCATION = 3
+LABEL_SIZE = 12
+LEVELS = np.array([1, 5, 10, 15, 20, 25, 30, 35, 40, 45])
 
 # 標高データの設定
-elevation = True
-elevation_min = 150
-elevation_interval = 100
-zoom_level = 8
+ELEVATION = True
+ELEVATION_MIN = 150
+ELEVATION_INTERVAL = 100
+ZOOM_LEVEL = 8
 
 
 # 緯度経度目盛りの設定
-deg_min_format = True
-latlon_ticks_interval = 0.5
+IS_DEG_MIN_FORMAT = True
+TICKS_INTERVAL = 0.5
 
 # タイトルのfontsize
-title_size = 20
-
+TITLE_FONTSIZE = 20
