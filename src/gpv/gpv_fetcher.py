@@ -1,6 +1,6 @@
 from datetime import datetime
 from numpy.ma import MaskedArray
-from tempfile import TemporaryFile
+from tempfile import NamedTemporaryFile
 
 from nakametpy.jma import load_jmara_grib2
 
@@ -21,7 +21,7 @@ def get_jma_gpv(utc_datetime: datetime) -> MaskedArray:
     url = f"http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/{year}/{month}/{day}/Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV__grib2.tar"
     res_data = fetch_data(url)
     # ライブラリの特性上、ファイルに書き込みを行わないと、データを取得できない
-    with TemporaryFile(mode="wb") as f:
+    with NamedTemporaryFile(mode="wb") as f:
         f.write(res_data)
         gpv_array: MaskedArray = load_jmara_grib2(
             file=f.name,
