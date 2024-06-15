@@ -17,7 +17,7 @@ from gpv.data_acquisition import load_jma_gpv
 from time_relation.conversion import PaddingDate, jst_to_utc
 from map.blank_map import make_blank_map
 from map.elevation_map import make_elevation_map
-from gif.gif import convert_jpg_to_gif
+from gif.gif import make_gif_from_imgs
 from ..constant import (
     LON_LEFT,
     LON_RIGHT,
@@ -376,9 +376,10 @@ def make_figures_of_group(date_list, group_name, elevation):
 
             # gifの作成
             if int(hour) == 23 and int(minute) == 50:
-                gif_title = f"{year}{month}{day}.gif"
+                gif_filename = f"{year}{month}{day}.gif"
+                gif_file_path = f"{save_dir}/{gif_filename}"
                 print("Converting figures into gif…")
-                convert_jpg_to_gif(save_dir, save_dir, gif_title)
+                make_gif_from_imgs(save_dir, gif_file_path)
                 print("Gif is successfully made.")
 
             exe_jsttime += datetime.timedelta(minutes=10)
