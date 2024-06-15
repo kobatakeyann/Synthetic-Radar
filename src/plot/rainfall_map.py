@@ -13,7 +13,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from bisect import bisect_left
 
 from util.path_complement import generate_path
-from gpv.data_acquisition import load_jma_gpv
+from gpv.gpv_fetcher import get_jma_gpv
 from time_relation.conversion import PaddingDate, jst_to_utc
 from map.blank_map import make_blank_map
 from map.elevation_map import make_elevation_map
@@ -46,7 +46,7 @@ def make_precipitation_figure(jst_datetime, elevation):
 
     # 降水量の配列と緯度経度情報の取得
     utc_datetime = jst_to_utc(jst_datetime)
-    data = load_jma_gpv(utc_datetime)
+    data = get_jma_gpv(utc_datetime)
     lat_list = nakametpy.jma.get_jmara_lat()
     lon_list = nakametpy.jma.get_jmara_lon()
 
@@ -206,7 +206,7 @@ def make_continuous_figures(startdate, enddate, elevation):
         # shadeplot
         # 引数はutc時刻
         exe_utctime = jst_to_utc(exe_jsttime)
-        data = load_jma_gpv(exe_utctime)
+        data = get_jma_gpv(exe_utctime)
         shade = ax.contourf(
             lon[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
             lat[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
@@ -322,7 +322,7 @@ def make_figures_of_group(date_list, group_name, elevation):
 
             # shadeplot
             exe_utctime = jst_to_utc(exe_jsttime)
-            data = load_jma_gpv(exe_utctime)
+            data = get_jma_gpv(exe_utctime)
             shade = ax.contourf(
                 lon[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
                 lat[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],

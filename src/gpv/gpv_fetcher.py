@@ -8,7 +8,7 @@ from api.api_calling import fetch_data
 from time_relation.conversion import PaddingDate
 
 
-def load_jma_gpv(utc_datetime: datetime) -> MaskedArray:
+def get_jma_gpv(utc_datetime: datetime) -> MaskedArray:
     """全国合成レーダーGPVの値の配列を返す関数"""
     target_datetime = PaddingDate(utc_datetime)
     year, month, day, hour, minute = (
