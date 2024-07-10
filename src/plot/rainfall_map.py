@@ -18,7 +18,7 @@ from time_relation.conversion import PaddingDate, jst_to_utc
 from map.blank_map import make_blank_map
 from map.elevation_map import make_elevation_map
 from gif.gif import make_gif_from_imgs
-from ..constant import (
+from constant import (
     LON_LEFT,
     LON_RIGHT,
     LAT_BOTTOM,
@@ -250,18 +250,18 @@ def make_continuous_figures(startdate, enddate, elevation):
         save_dir = generate_path(f"/img/{year}/{month}/{day}")
         filename = f"{year}{month}{day}{hour}{minute}.jpg"
         os.makedirs(save_dir, exist_ok=True)
-        # copied_fig.savefig(f"{save_dir}/{filename}", dpi=100, pad_inches=0.1)
+        copied_fig.savefig(f"{save_dir}/{filename}", dpi=100, pad_inches=0.1)
         # copied_fig.savefig(f"{filename}", dpi=100, pad_inches=0.1)
 
         plt.clf()
         plt.close()
 
         # gifの作成
-        # if int(hour) == 23 and int(minute) == 50:
-        #     gif_title = f"{year}{month}{day}.gif"
-        #     print("Converting figures into gif…")
-        #     convert_jpg_to_gif(save_dir,save_dir,gif_title)
-        #     print("Gif is successfully made.")
+        if int(hour) == 23 and int(minute) == 50:
+            gif_title = f"{year}{month}{day}.gif"
+            print("Converting figures into gif…")
+            make_gif_from_imgs(save_dir, f"{save_dir}/{gif_title}")
+            print("Gif is successfully made.")
 
         exe_jsttime += timedelta(minutes=10)
 
@@ -312,7 +312,7 @@ def make_figures_of_group(date_list, group_name, elevation):
     basefig = pickle.dumps(fig)
 
     for exe_date in date_list:
-        exe_jsttime = datetime.datetime(
+        exe_jsttime = datetime(
             exe_date.year, exe_date.month, exe_date.day, 0, 0
         )
         for i in range(144):
@@ -382,6 +382,6 @@ def make_figures_of_group(date_list, group_name, elevation):
                 make_gif_from_imgs(save_dir, gif_file_path)
                 print("Gif is successfully made.")
 
-            exe_jsttime += datetime.timedelta(minutes=10)
+            exe_jsttime += timedelta(minutes=10)
 
     print("Figures are successfully made.")
