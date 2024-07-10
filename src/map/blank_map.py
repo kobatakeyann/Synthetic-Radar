@@ -3,22 +3,7 @@ import cartopy.io.shapereader as shapereader
 import matplotlib.pyplot as plt
 import numpy as np
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
-
-
-def format_longitude(lon: float, _) -> str:
-    degrees = int(lon)
-    minutes = abs(int((lon - degrees) * 60))
-    if minutes == 0:
-        minutes = "00"
-    return f"{degrees}°{minutes}'E"
-
-
-def format_latitude(lat: float, _) -> str:
-    degrees = int(lat)
-    minutes = abs(int((lat - degrees) * 60))
-    if minutes == 0:
-        minutes = "00"
-    return f"{degrees}°{minutes}'N"
+from lat_lon_formatter import format_latitude, format_longitude
 
 
 def make_blank_map(
