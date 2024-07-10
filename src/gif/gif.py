@@ -1,4 +1,5 @@
 from glob import glob
+
 from PIL import Image
 
 
@@ -13,6 +14,6 @@ def make_gif_from_imgs(img_dir_path: str, saved_gif_path: str) -> None:
         save_all=True,
         append_images=img_array[1:],
         optimize=True,
-        duration=90,
+        duration=150,
         loop=0,
     )

@@ -1,12 +1,13 @@
 from pathlib import Path
 
-def generate_path(path:str) -> str:
-  """generate the absolute path 
 
-  Arg:
-    path (str): synthetic_radarからの相対パス
+def generate_path(path: str) -> str:
+    """generate the absolute path
 
-  Return:
-    str: 引数pathへの絶対パス
-  """
-  return str(Path(__file__).parents[2]) + path
+    Arg:
+      path : Relative path from 'synthetic_radar'.
+
+    Return:
+      str: Absolute path.
+    """
+    return str(Path(__file__).parents[2]) + path

@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # 設定項目の説明
 """
 lon_left, lon_right         (float)     : 描画したい経度の左端と右端 
@@ -21,13 +20,14 @@ title_fontsize              (float)     : 図のタイトルの文字の大き�
 
 
 # 描画領域の設定
-LON_LEFT, LON_RIGHT = 129.88, 130.74
-LAT_BOTTOM, LAT_TOP = 33.34, 34
+LON_LEFT, LON_RIGHT = 129.97696, 130.7594
+LAT_BOTTOM, LAT_TOP = 33.006493, 33.797226
 
 # colorbarの設定
 LABEL_LOCATION = 3
 LABEL_SIZE = 12
-LEVELS = np.array([1, 5, 10, 15, 20, 25, 30, 35, 40, 45])
+# LEVELS = np.array([1, 5, 10, 15, 20, 25, 30, 35, 40, 45])
+LEVELS = np.arange(1, 51, 5)
 
 # 標高データの設定
 ELEVATION = True
@@ -37,8 +37,8 @@ ZOOM_LEVEL = 8
 
 
 # 緯度経度目盛りの設定
-IS_DEG_MIN_FORMAT = True
-TICKS_INTERVAL = 0.5
+IS_DEG_MIN_FORMAT = False
+TICKS_INTERVAL = 0.1
 
 # タイトルのfontsize
 TITLE_FONTSIZE = 20
