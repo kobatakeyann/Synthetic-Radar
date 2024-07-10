@@ -1,62 +1,14 @@
-import cartopy.crs as ccrs
-import cartopy.io.shapereader as shapereader
-import matplotlib.pyplot as plt
-import numpy as np
-from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
-from lat_lon_formatter import format_latitude, format_longitude
+from axes import MapAxesMethod
+from cartopy.mpl.geoaxes import GeoAxes
+from constant import IS_DEG_MIN_FORMAT
 
 
-def make_blank_map(
-    lon_left,
-    lon_right,
-    lat_lower,
-    lat_upper,
-    deg_min_format=True,
-    lon_interval=0.5,
-    lat_interval=0.5,
-):
-
-    # 県境データを取得
-    shpfilename = shapereader.natural_earth(
-        resolution="10m", category="cultural", name="admin_1_states_provinces"
-    )
-    provinces = shapereader.Reader(shpfilename).records()
-    prefs = filter(
-        lambda province: province.attributes["admin"] == "Japan", provinces
-    )
-
-    # 図のサイズの設定
-    aspect = (lat_upper - lat_lower) / (lon_right - lon_left)
-    figsize = (10, 9.5 * aspect)
-    fig = plt.figure(figsize=figsize)
-    proj = ccrs.PlateCarree()
-    ax = fig.add_axes((0.08, 0.1, 0.83, 0.83), projection=proj)
-
-    # 国境・県境を描画
-    ax.coastlines(linewidths=1, resolution="10m")
-    for pref in prefs:
-        geometry = pref.geometry
-        ax.add_geometries(
-            [geometry],
-            ccrs.PlateCarree(),
-            facecolor="none",
-            linestyle="-",
-            linewidth=0.1,
-        )
-
-    # 緯度経度の表示
-    xloc = np.arange(0, 180 + 0.0001, lon_interval)
-    yloc = np.arange(0, 90 + 0.0001, lat_interval)
-    ax.set_xticks(xloc, crs=ccrs.PlateCarree())
-    ax.set_yticks(yloc, crs=ccrs.PlateCarree())
-    ax.xaxis.set_major_formatter(LatitudeFormatter())
-    ax.yaxis.set_major_formatter(LongitudeFormatter())
-
-    if deg_min_format:
-        ax.xaxis.set_major_formatter(format_longitude)
-        ax.yaxis.set_major_formatter(format_latitude)
-
-    # 描画範囲を設定
-    ax.set_extent(
-        (lon_left, lon_right, lat_lower, lat_upper), ccrs.PlateCarree()
-    )
+def make_blank_map(ax: GeoAxes) -> GeoAxes:
+    map_axes = MapAxesMethod(ax)
+    map_axes.plot_coastline()
+    map_axes.plot_pref_border()
+    map_axes.set_ticks()
+    if IS_DEG_MIN_FORMAT:
+        map_axes.express_in_deg_min_format()
+    map_axes.narrow_down_the_plot_area()
+    return map_axes.ax
