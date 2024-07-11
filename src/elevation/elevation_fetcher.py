@@ -43,7 +43,8 @@ class Elevation:
         url = f"http://cyberjapandata.gsi.go.jp/xyz/dem/{self.zoom_level}/{x}/{y}.txt"
         try:
             res_data = fetch_data(url)
-            elevation_text = res_data.read().replace("e", "0.0")
+            text_data = res_data.decode("utf-8")
+            elevation_text = text_data.replace("e", "0.0")
             elevation_df = pd.read_csv(StringIO(elevation_text), header=None)
             elevation_array = elevation_df.values
         except HTTPError as http_err:
