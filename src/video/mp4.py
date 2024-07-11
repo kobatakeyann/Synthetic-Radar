@@ -16,7 +16,7 @@ def make_mp4_from_imgs(img_dir_path: str, saved_mp4_path: str) -> None:
         filename=saved_mp4_path,
         apiPreference=cv2.CAP_FFMPEG,
         fourcc=cv2.VideoWriter_fourcc(*"avc1"),
-        fps=MP4_FPS,
+        fps=FPS_OF_VIDEO,
         frameSize=size,
     )
 
