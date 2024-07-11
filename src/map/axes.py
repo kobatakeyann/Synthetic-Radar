@@ -7,6 +7,8 @@ from constant import (
     CONTOUR_COLOR,
     CONTOUR_LABEL_SIZE,
     CONTOUR_WIDTH,
+    GRIDLINE_COLOR,
+    GRIDLINE_WIDTH,
     LAT_BOTTOM,
     LAT_TICKS_INTERVAL,
     LAT_TOP,
@@ -78,6 +80,15 @@ class MapAxesMethod:
         self.ax.set_yticks(self.yloc, crs=ccrs.PlateCarree())
         self.ax.xaxis.set_major_formatter(LongitudeFormatter())
         self.ax.yaxis.set_major_formatter(LatitudeFormatter())
+
+    def draw_gridlines(self) -> None:
+        gl = self.ax.gridlines(
+            draw_labels=True, color=GRIDLINE_COLOR, linewidth=GRIDLINE_WIDTH
+        )
+        gl.right_labels = False
+        gl.top_labels = False
+        gl.left_labels = False
+        gl.bottom_labels = False
 
     def express_in_deg_min_format(self) -> None:
         self.ax.xaxis.set_major_formatter(format_longitude)
