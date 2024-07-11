@@ -1,39 +1,38 @@
 import os
 import pickle
-import nakametpy.jma
-
-import numpy as np
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.axes as maxes
-
-from datetime import datetime, timedelta
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 from bisect import bisect_left
+from datetime import datetime, timedelta
 
-from util.path_complement import generate_path
-from gpv.gpv_fetcher import get_jma_gpv
-from time_relation.conversion import PaddingDate, jst_to_utc
-from map.blank_map import make_blank_map
-from map.elevation_map import make_elevation_map
-from gif.gif import make_gif_from_imgs
+import cartopy.crs as ccrs
+import matplotlib.axes as maxes
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
+import nakametpy.jma
+import numpy as np
 from constant import (
-    LON_LEFT,
-    LON_RIGHT,
-    LAT_BOTTOM,
-    LAT_TOP,
+    ELEVATION_INTERVAL,
+    ELEVATION_MIN,
+    IS_DEG_MIN_FORMAT,
     LABEL_LOCATION,
     LABEL_SIZE,
+    LAT_BOTTOM,
+    LAT_TOP,
     LEVELS,
-    ELEVATION,
-    ELEVATION_MIN,
-    ELEVATION_INTERVAL,
-    ZOOM_LEVEL,
-    IS_DEG_MIN_FORMAT,
+    LON_LEFT,
+    LON_RIGHT,
+    PLOT_ELEVATION,
     TICKS_INTERVAL,
     TITLE_FONTSIZE,
+    ZOOM_LEVEL,
 )
+from gif.gif import make_gif_from_imgs
+from gpv.gpv_fetcher import get_jma_gpv
+from map.elevation_map import make_elevation_map
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from time_relation.conversion import PaddingDate, jst_to_utc
+from util.path_complement import generate_path
+
+from synthetic_radar.src.map.base_map import make_blank_map
 
 
 def make_precipitation_figure(jst_datetime, elevation):
