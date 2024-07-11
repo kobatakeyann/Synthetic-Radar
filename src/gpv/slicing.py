@@ -3,9 +3,10 @@ from datetime import datetime
 
 import numpy as np
 from constant import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
-from gpv_fetcher import get_jma_gpv
 from nakametpy.jma import get_jmara_lat, get_jmara_lon
 from numpy import ndarray
+
+from .gpv_fetcher import get_jma_gpv
 
 
 class GPV:

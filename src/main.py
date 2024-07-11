@@ -1,9 +1,11 @@
 from datetime import datetime
 
-from figure.rainfall_map import make_continuous_figures
+import pandas as pd
+from figure.plot import FigureFactory
 
 if __name__ == "__main__":
-    startdate = datetime(2023, 8, 21, 9, 0)
-    enddate = datetime(2023, 8, 21, 21, 0)
-    elevation = True
-    make_continuous_figures(startdate, enddate, elevation)
+    start_datetime = datetime(2021, 8, 5, 0, 0)
+    end_datetime = datetime(2021, 8, 5, 23, 50)
+    jst_datetimes = pd.date_range(start_datetime, end_datetime, freq="10min")
+    factory = FigureFactory(jst_datetimes)
+    factory.make_continuous_figures()

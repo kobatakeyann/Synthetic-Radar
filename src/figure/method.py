@@ -3,7 +3,6 @@ import os
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-from calculation import get_cbar_levels
 from cartopy.mpl.geoaxes import GeoAxes
 from constant import (
     CBAR_EXTENTION,
@@ -21,6 +20,8 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from numpy import ndarray
+
+from .calculation import get_cbar_levels
 
 
 class AxesMethod:
