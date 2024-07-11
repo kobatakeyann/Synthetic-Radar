@@ -4,14 +4,14 @@ from tempfile import NamedTemporaryFile
 from api.api_calling import fetch_data
 from nakametpy.jma import load_jmara_grib2
 from numpy.ma import MaskedArray
-from time_relation.conversion import PaddingDate
+from time_relation.conversion import PaddingDatetime
 
 
 def get_jma_gpv(utc_datetime: datetime) -> MaskedArray:
     """
     Return an array of synthetic radar grid point value.
     """
-    target_datetime = PaddingDate(utc_datetime)
+    target_datetime = PaddingDatetime(utc_datetime)
     year, month, day, hour, minute = (
         target_datetime.year,
         target_datetime.month,
