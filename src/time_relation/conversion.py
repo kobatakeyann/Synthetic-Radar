@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 
-class PaddingDate:
+class PaddingDatetime:
     def __init__(self, target_dt: datetime) -> None:
         self.year, self.month, self.day, self.hour, self.minute = (
             self.pad_with_zero(target_dt.year, 4),
