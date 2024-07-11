@@ -49,3 +49,6 @@ LAT_TICKS_INTERVAL = 0.1
 
 # タイトルのfontsize
 TITLE_FONTSIZE = 20
+
+
+FPS_OF_VIDEO = 5.0
