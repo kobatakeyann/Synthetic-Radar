@@ -1,6 +1,7 @@
-from axes import MapAxesMethod
 from cartopy.mpl.geoaxes import GeoAxes
 from constant import IS_DEG_MIN_FORMAT, PLOT_ELEVATION, PLOT_GRID_LINE
+
+from .axes import MapAxesMethod
 
 
 def make_base_map(ax: GeoAxes) -> GeoAxes:

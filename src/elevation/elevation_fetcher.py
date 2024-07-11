@@ -4,11 +4,12 @@ from urllib.error import HTTPError
 import numpy as np
 import pandas as pd
 from api.api_calling import fetch_data
-from coordinate_conversion import (
+from numpy import ndarray
+
+from .coordinate_conversion import (
     lonlat_to_tile_coords,
     tile_coords_to_northwest_lonlat,
 )
-from numpy import ndarray
 
 
 class Elevation:

@@ -19,8 +19,9 @@ from constant import (
     ZOOM_LEVEL,
 )
 from elevation.elevation_fetcher import Elevation
-from lat_lon_formatter import format_latitude, format_longitude
-from level_calculation import get_clabel_levels, get_contour_levels
+
+from .lat_lon_formatter import format_latitude, format_longitude
+from .level_calculation import get_clabel_levels, get_contour_levels
 
 
 class MapAxesMethod:
