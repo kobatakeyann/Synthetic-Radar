@@ -94,7 +94,7 @@ class Elevation:
         num_x = self.elevation_array.shape[1]
         num_y = self.elevation_array.shape[0]
         lon_deviation = ((lon_right_edge - lon_left_edge) / num_x) * 0.5
-        lat_deviation = ((lat_bottom_edge - lat_top_edge) / num_y) * 0.5
+        lat_deviation = ((lat_top_edge - lat_bottom_edge) / num_y) * 0.5
         lon_coords = np.linspace(
             lon_left_edge + lon_deviation,
             lon_right_edge + lon_deviation,
@@ -106,5 +106,4 @@ class Elevation:
             num_y,
         )
         lon_coords, lat_coords = np.meshgrid(lon_coords, lat_coords)
-        print(lat_coords)
         return lon_coords, lat_coords

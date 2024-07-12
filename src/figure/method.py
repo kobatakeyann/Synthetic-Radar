@@ -2,18 +2,13 @@ import os
 
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-from cartopy.mpl.geoaxes import GeoAxes
 from constant import (
     CBAR_EXTENTION,
     CBAR_LABEL_LOCATION,
     CBAR_LABEL_SIZE,
-    CBAR_TICKS_BASE,
-    CBAR_TICKS_INTERVAL,
     CBAR_UNIT,
     COLOR_MAP_NAME,
     DIVIDE_EVENLY,
-    IS_AUTO_TICKS,
     TITLE_SIZE,
 )
 from matplotlib.axes import Axes
@@ -46,17 +41,7 @@ class AxesMethod:
         divider = make_axes_locatable(self.ax)
         cax = divider.append_axes("right", size="5%", pad=0.2, axes_class=Axes)
         plt.gcf().add_axes(cax)
-        if IS_AUTO_TICKS:
-            self.cbar = plt.colorbar(
-                self.shade, cax=cax, orientation="vertical"
-            )
-        else:
-            ticks = mticker.IndexLocator(
-                base=CBAR_TICKS_BASE, offset=CBAR_TICKS_INTERVAL
-            )
-            self.cbar = plt.colorbar(
-                self.shade, cax=cax, ticks=ticks, orientation="vertical"
-            )
+        self.cbar = plt.colorbar(self.shade, cax=cax, orientation="vertical")
 
     def set_cbar_label(self) -> None:
         self.cbar.set_label(
