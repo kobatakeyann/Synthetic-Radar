@@ -1,46 +1,41 @@
+import datetime
 import os
 import pickle
-import datetime
-import urllib.request
 import urllib.error
-import nakametpy.jma
-
-import numpy as np
-import cartopy.crs as ccrs
-import cartopy.io.shapereader as shapereader
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.axes as maxes
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-
-from mpl_toolkits.axes_grid1 import make_axes_locatable
+import urllib.request
 from bisect import bisect_left
 
-from util.path_complement import generate_path
-from util.tempfile_name import generate_random_strings
-from time_relation.conversion import jst_to_utc, acquire_factors_of_datetime
+import cartopy.crs as ccrs
+import cartopy.io.shapereader as shapereader
+import matplotlib.axes as maxes
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
+import nakametpy.jma
+import numpy as np
+from gif.gif import convert_jpg_to_gif
 from map.blank_map import make_blank_map
 from map.elevation_map import make_elevation_map
-from gif.gif import convert_jpg_to_gif
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from time_relation.conversion import acquire_factors_of_datetime, jst_to_utc
+from util.path_complement import generate_path
+from util.tempfile_name import generate_random_strings
 
-
-#描画領域の設定
-# lon_left, lon_right = 120, 150
-# lat_bottom, lat_top = 22.4, 47.6
+# 描画領域の設定
+lon_left, lon_right = 120, 150
+lat_bottom, lat_top = 22.4, 47.6
 # lon_left, lon_right = 129.2, 132.2
 # lat_bottom, lat_top = 30.9, 34.1
 # lon_left, lon_right = 129.68, 130.94
 # lat_bottom, lat_top = 33.14, 34
-lon_left, lon_right = 129.88, 130.74
-lat_bottom, lat_top = 33.34, 34
+# lon_left, lon_right = 129.88, 130.74
+# lat_bottom, lat_top = 33.34, 34
 
-#colorbarの設定
+# colorbarの設定
 label_loc = 3
 label_size = 12
 # levels = np.arange(1,51,5)
 # levels = np.array([1,5,10,16,25,32,48,64,81])
-levels = np.array([1,5,10,15,20,25,30,35,40,45])
+levels = np.array([1, 5, 10, 15, 20, 25, 30, 35, 40, 45])
 
 # 標高データの設定
 elevation = True
@@ -77,13 +72,14 @@ title_fontsize              (float)     : 図のタイトルの文字の大き�
 
 ####################################################################################
 
+
 def load_jma_gpv(jst_datetime):
-    '''全国合成レーダーGPVの値の配列を返す関数
+    """全国合成レーダーGPVの値の配列を返す関数
 
     Arg:
-      jst_datetime (datetime)  
-    '''
-    
+      jst_datetime (datetime)
+    """
+
     # 0補完された日付文字列の取得
     utc_date_time = jst_to_utc(jst_datetime)
     year, month, day, hour, minute = acquire_factors_of_datetime(utc_date_time)
@@ -96,13 +92,15 @@ def load_jma_gpv(jst_datetime):
         _req = urllib.request.Request(_url)
         with urllib.request.urlopen(_req) as _res:
             _urlData = _res.read()
-            with open(_tmpfile, mode='wb') as f:
+            with open(_tmpfile, mode="wb") as f:
                 f.write(_urlData)
                 _tar_contentname = f"Z__C_RJTD_{year}{month}{day}{hour}{minute}00_RDR_JMAGPV_Ggis1km_Prr10lv_ANAL_grib2.bin"
-                _data = nakametpy.jma.load_jmara_grib2(_tmpfile,tar_flag=True,tar_contentname=_tar_contentname)
+                _data = nakametpy.jma.load_jmara_grib2(
+                    _tmpfile, tar_flag=True, tar_contentname=_tar_contentname
+                )
                 os.remove(_tmpfile)
                 return _data
-            
+
     except urllib.error.HTTPError as err:
         print(f"{jst_datetime}: {err.code}")
 
@@ -110,13 +108,13 @@ def load_jma_gpv(jst_datetime):
         print(f"{jst_datetime}: {err.reason}")
 
 
-def make_precipitation_figure(jst_datetime,elevation):
-    '''全国合成レーダーGPVの値を用いて雨雲レーダーの図を作る関数
+def make_precipitation_figure(jst_datetime, elevation):
+    """全国合成レーダーGPVの値を用いて雨雲レーダーの図を作る関数
 
     Arg:
       jst_datetime (datetime) : 描画したい日時
       elevation    (bool)     : 標高の等高線をplotする場合はTrue、しない場合はFalse
-    '''
+    """
 
     # 降水量の配列と緯度経度情報の取得
     data = load_jma_gpv(jst_datetime)
@@ -131,48 +129,80 @@ def make_precipitation_figure(jst_datetime,elevation):
     # 地図情報の取得
     if elevation:
         print("Elevation data is now loading…")
-        make_elevation_map(lon_left,lon_right,lat_bottom,lat_top,zoom_level,
-                           deg_min_format,lon_interval=latlon_ticks_interval,lat_interval=latlon_ticks_interval,
-                           contour_min=elevation_min,contour_interval=elevation_interval)
+        make_elevation_map(
+            lon_left,
+            lon_right,
+            lat_bottom,
+            lat_top,
+            zoom_level,
+            deg_min_format,
+            lon_interval=latlon_ticks_interval,
+            lat_interval=latlon_ticks_interval,
+            contour_min=elevation_min,
+            contour_interval=elevation_interval,
+        )
         print("Data loading has been completed!")
     else:
-        make_blank_map(lon_left,lon_right,lat_bottom,lat_top,
-                       deg_min_format,lon_interval=latlon_ticks_interval,lat_interval=latlon_ticks_interval)
+        make_blank_map(
+            lon_left,
+            lon_right,
+            lat_bottom,
+            lat_top,
+            deg_min_format,
+            lon_interval=latlon_ticks_interval,
+            lat_interval=latlon_ticks_interval,
+        )
 
     # スライスのためのindexを取得
-    x_left = bisect_left(lon_list,lon_left)
-    x_right = bisect_left(lon_list,lon_right)
-    y_bottom = bisect_left(lat_list,lat_bottom)
-    y_top = bisect_left(lat_list,lat_top)
+    x_left = bisect_left(lon_list, lon_left)
+    x_right = bisect_left(lon_list, lon_right)
+    y_bottom = bisect_left(lat_list, lat_bottom)
+    y_top = bisect_left(lat_list, lat_top)
 
     # 図の描画
     fig = plt.gcf()
     ax = plt.gca()
-    lon, lat = np.meshgrid(lon_list,lat_list)
+    lon, lat = np.meshgrid(lon_list, lat_list)
     # shadeplot
-    shade = ax.contourf(lon[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                        lat[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                        data[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                        transform=ccrs.PlateCarree(),
-                        cmap=cm.jet, levels=levels, extend='max')
+    shade = ax.contourf(
+        lon[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+        lat[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+        data[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+        transform=ccrs.PlateCarree(),
+        cmap=cm.jet,
+        levels=levels,
+        extend="max",
+    )
 
     # colorbar
     divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="4%", pad=0.2, axes_class=maxes.Axes)
+    cax = divider.append_axes(
+        "right", size="4%", pad=0.2, axes_class=maxes.Axes
+    )
     fig.add_axes(cax)
-    cbar = plt.colorbar(shade, cax=cax, orientation='vertical',extendfrac='auto')
-    cbar.set_label(r"[$\mathrm{mm\,h^{-1}}$]", labelpad=label_loc, y=1.15, rotation=0, fontsize=label_size)
+    cbar = plt.colorbar(
+        shade, cax=cax, orientation="vertical", extendfrac="auto"
+    )
+    cbar.set_label(
+        r"[$\mathrm{mm\,h^{-1}}$]",
+        labelpad=label_loc,
+        y=1.15,
+        rotation=0,
+        fontsize=label_size,
+    )
 
     # 観測時間のプロット
     print(jst_datetime)
     year, month, day, hour, minute = acquire_factors_of_datetime(jst_datetime)
     ax = plt.gcf().get_axes()[0]
-    ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
+    ax.set_title(
+        f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size
+    )
 
     # 図の保存
     save_dir = generate_path(f"/img/{year}/{month}/{day}")
     filename = f"{year}{month}{day}{hour}{minute}.jpg"
-    os.makedirs(save_dir,exist_ok=True)
+    os.makedirs(save_dir, exist_ok=True)
     fig.savefig(f"{save_dir}/{filename}", dpi=600, pad_inches=0.1)
 
     print("Figure is successfully made.")
@@ -180,37 +210,53 @@ def make_precipitation_figure(jst_datetime,elevation):
     plt.close()
 
 
-def make_continuous_figures(startdate,enddate,elevation):
-    '''複数の連続した日の雨雲レーダー図を作る関数
+def make_continuous_figures(startdate, enddate, elevation):
+    """複数の連続した日の雨雲レーダー図を作る関数
 
     Arg:
       startdate (datetime) : 描画する期間の最初の日
       enddate   (datetime) : 描画する期間の最後の日
       elevation  (bool)    : 標高の等高線をplotする場合はTrue、しない場合はFalse
-    '''
-    
+    """
+
     # 地図情報の取得
     if elevation:
         print("Elevation data is now loading…")
-        make_elevation_map(lon_left,lon_right,lat_bottom,lat_top,zoom_level,
-                           deg_min_format,lon_interval=latlon_ticks_interval,lat_interval=latlon_ticks_interval,
-                           contour_min=elevation_min,contour_interval=elevation_interval)
+        make_elevation_map(
+            lon_left,
+            lon_right,
+            lat_bottom,
+            lat_top,
+            zoom_level,
+            deg_min_format,
+            lon_interval=latlon_ticks_interval,
+            lat_interval=latlon_ticks_interval,
+            contour_min=elevation_min,
+            contour_interval=elevation_interval,
+        )
         print("Data loading has been completed!")
     else:
-        make_blank_map(lon_left,lon_right,lat_bottom,lat_top,
-                       deg_min_format,lon_interval=latlon_ticks_interval,lat_interval=latlon_ticks_interval)
+        make_blank_map(
+            lon_left,
+            lon_right,
+            lat_bottom,
+            lat_top,
+            deg_min_format,
+            lon_interval=latlon_ticks_interval,
+            lat_interval=latlon_ticks_interval,
+        )
 
     # 緯度経度情報の取得
     lat_list = nakametpy.jma.get_jmara_lat()
     lon_list = nakametpy.jma.get_jmara_lon()
-    lon, lat = np.meshgrid(lon_list,lat_list)
+    lon, lat = np.meshgrid(lon_list, lat_list)
 
     # スライスのためのindexを取得
-    x_left = bisect_left(lon_list,lon_left)
-    x_right = bisect_left(lon_list,lon_right)
-    y_bottom = bisect_left(lat_list,lat_bottom)
-    y_top = bisect_left(lat_list,lat_top)
-    
+    x_left = bisect_left(lon_list, lon_left)
+    x_right = bisect_left(lon_list, lon_right)
+    y_bottom = bisect_left(lat_list, lat_bottom)
+    y_top = bisect_left(lat_list, lat_top)
+
     # 下地となる地図を保存
     fig = plt.gcf()
     basefig = pickle.dumps(fig)
@@ -223,26 +269,44 @@ def make_continuous_figures(startdate,enddate,elevation):
 
         # shadeplot
         data = load_jma_gpv(exe_jsttime)
-        shade = ax.contourf(lon[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                            lat[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                            data[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                            transform=ccrs.PlateCarree(),
-                            cmap=cm.jet, levels=levels, extend='max')
+        shade = ax.contourf(
+            lon[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+            lat[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+            data[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+            transform=ccrs.PlateCarree(),
+            cmap=cm.jet,
+            levels=levels,
+            extend="max",
+        )
         # colorbarplot
         divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="4%", pad=0.2, axes_class=maxes.Axes)
+        cax = divider.append_axes(
+            "right", size="4%", pad=0.2, axes_class=maxes.Axes
+        )
         copied_fig.add_axes(cax)
-        cbar = plt.colorbar(shade, cax=cax, orientation='vertical',extendfrac='auto')
-        cbar.set_label(r"[$\mathrm{mm\,h^{-1}}$]", labelpad=label_loc, y=1.15, rotation=0, fontsize=label_size)
+        cbar = plt.colorbar(
+            shade, cax=cax, orientation="vertical", extendfrac="auto"
+        )
+        cbar.set_label(
+            r"[$\mathrm{mm\,h^{-1}}$]",
+            labelpad=label_loc,
+            y=1.15,
+            rotation=0,
+            fontsize=label_size,
+        )
         # 観測時間のプロット
         print(exe_jsttime)
-        year, month, day, hour, minute = acquire_factors_of_datetime(exe_jsttime)
-        ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
+        year, month, day, hour, minute = acquire_factors_of_datetime(
+            exe_jsttime
+        )
+        ax.set_title(
+            f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size
+        )
 
         # 図の保存
         save_dir = generate_path(f"/img/{year}/{month}/{day}")
         filename = f"{year}{month}{day}{hour}{minute}.jpg"
-        os.makedirs(save_dir,exist_ok=True)
+        os.makedirs(save_dir, exist_ok=True)
         copied_fig.savefig(f"{save_dir}/{filename}", dpi=100, pad_inches=0.1)
 
         plt.clf()
@@ -252,43 +316,61 @@ def make_continuous_figures(startdate,enddate,elevation):
         if int(hour) == 23 and int(minute) == 50:
             gif_title = f"{year}{month}{day}.gif"
             print("Converting figures into gif…")
-            convert_jpg_to_gif(save_dir,save_dir,gif_title)
+            convert_jpg_to_gif(save_dir, save_dir, gif_title)
             print("Gif is successfully made.")
 
         exe_jsttime += datetime.timedelta(minutes=10)
 
     print("Figures are successfully made.")
 
-    
-def make_figures_of_group(date_list,group_name,elevation):
+
+def make_figures_of_group(date_list, group_name, elevation):
     # 地図情報の取得
     if elevation:
         print("Elevation data is now loading…")
-        make_elevation_map(lon_left,lon_right,lat_bottom,lat_top,zoom_level,
-                           deg_min_format,lon_interval=latlon_ticks_interval,lat_interval=latlon_ticks_interval,
-                           contour_min=elevation_min,contour_interval=elevation_interval)
+        make_elevation_map(
+            lon_left,
+            lon_right,
+            lat_bottom,
+            lat_top,
+            zoom_level,
+            deg_min_format,
+            lon_interval=latlon_ticks_interval,
+            lat_interval=latlon_ticks_interval,
+            contour_min=elevation_min,
+            contour_interval=elevation_interval,
+        )
         print("Data loading has been completed!")
     else:
-        make_blank_map(lon_left,lon_right,lat_bottom,lat_top,
-                       deg_min_format,lon_interval=latlon_ticks_interval,lat_interval=latlon_ticks_interval)
+        make_blank_map(
+            lon_left,
+            lon_right,
+            lat_bottom,
+            lat_top,
+            deg_min_format,
+            lon_interval=latlon_ticks_interval,
+            lat_interval=latlon_ticks_interval,
+        )
 
     # 緯度経度情報の取得
     lat_list = nakametpy.jma.get_jmara_lat()
     lon_list = nakametpy.jma.get_jmara_lon()
-    lon, lat = np.meshgrid(lon_list,lat_list)
+    lon, lat = np.meshgrid(lon_list, lat_list)
 
     # スライスのためのindexを取得
-    x_left = bisect_left(lon_list,lon_left)
-    x_right = bisect_left(lon_list,lon_right)
-    y_bottom = bisect_left(lat_list,lat_bottom)
-    y_top = bisect_left(lat_list,lat_top)
-    
+    x_left = bisect_left(lon_list, lon_left)
+    x_right = bisect_left(lon_list, lon_right)
+    y_bottom = bisect_left(lat_list, lat_bottom)
+    y_top = bisect_left(lat_list, lat_top)
+
     # 下地となる地図を保存
     fig = plt.gcf()
     basefig = pickle.dumps(fig)
 
     for exe_date in date_list:
-        exe_jsttime = datetime.datetime(exe_date.year,exe_date.month,exe_date.day,0,0)
+        exe_jsttime = datetime.datetime(
+            exe_date.year, exe_date.month, exe_date.day, 0, 0
+        )
         for i in range(144):
             # 下地の地図を取得
             copied_fig = pickle.loads(basefig)
@@ -296,27 +378,47 @@ def make_figures_of_group(date_list,group_name,elevation):
 
             # shadeplot
             data = load_jma_gpv(exe_jsttime)
-            shade = ax.contourf(lon[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                                lat[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                                data[y_bottom-10:y_top+10,x_left-10:x_right+10],
-                                transform=ccrs.PlateCarree(),
-                                cmap=cm.jet, levels=levels, extend='max')
+            shade = ax.contourf(
+                lon[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+                lat[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+                data[y_bottom - 10 : y_top + 10, x_left - 10 : x_right + 10],
+                transform=ccrs.PlateCarree(),
+                cmap=cm.jet,
+                levels=levels,
+                extend="max",
+            )
             # colorbarplot
             divider = make_axes_locatable(ax)
-            cax = divider.append_axes("right", size="4%", pad=0.2, axes_class=maxes.Axes)
+            cax = divider.append_axes(
+                "right", size="4%", pad=0.2, axes_class=maxes.Axes
+            )
             copied_fig.add_axes(cax)
-            cbar = plt.colorbar(shade, cax=cax, orientation='vertical',extendfrac='auto')
-            cbar.set_label(r"[$\mathrm{mm\,h^{-1}}$]", labelpad=label_loc, y=1.15, rotation=0, fontsize=label_size)
+            cbar = plt.colorbar(
+                shade, cax=cax, orientation="vertical", extendfrac="auto"
+            )
+            cbar.set_label(
+                r"[$\mathrm{mm\,h^{-1}}$]",
+                labelpad=label_loc,
+                y=1.15,
+                rotation=0,
+                fontsize=label_size,
+            )
             # 観測時間のプロット
             print(exe_jsttime)
-            year, month, day, hour, minute = acquire_factors_of_datetime(exe_jsttime)
-            ax.set_title(f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size)
+            year, month, day, hour, minute = acquire_factors_of_datetime(
+                exe_jsttime
+            )
+            ax.set_title(
+                f"{year}/{month}/{day} {hour}{minute}JST", fontsize=title_size
+            )
 
             # 図の保存
             save_dir = generate_path(f"/img/{group_name}/{year}{month}{day}")
             filename = f"{year}{month}{day}{hour}{minute}.jpg"
-            os.makedirs(save_dir,exist_ok=True)
-            copied_fig.savefig(f"{save_dir}/{filename}", dpi=100, pad_inches=0.1)
+            os.makedirs(save_dir, exist_ok=True)
+            copied_fig.savefig(
+                f"{save_dir}/{filename}", dpi=100, pad_inches=0.1
+            )
 
             plt.clf()
             plt.close()
@@ -325,7 +427,7 @@ def make_figures_of_group(date_list,group_name,elevation):
             if int(hour) == 23 and int(minute) == 50:
                 gif_title = f"{year}{month}{day}.gif"
                 print("Converting figures into gif…")
-                convert_jpg_to_gif(save_dir,save_dir,gif_title)
+                convert_jpg_to_gif(save_dir, save_dir, gif_title)
                 print("Gif is successfully made.")
 
             exe_jsttime += datetime.timedelta(minutes=10)
@@ -333,12 +435,11 @@ def make_figures_of_group(date_list,group_name,elevation):
     print("Figures are successfully made.")
 
 
-
 ##############################################################################
 
 
 # 以下で実行
-startdate = datetime.datetime(2023,8,23,0,0)
-enddate = datetime.datetime(2023,8,25,0,0)
-elevation = False
-# make_continuous_figures(startdate,enddate,elevation)
+startdate = datetime.datetime(2023, 8, 20, 0, 0)
+enddate = datetime.datetime(2023, 8, 21, 0, 0)
+elevation = True
+make_continuous_figures(startdate, enddate, elevation)
