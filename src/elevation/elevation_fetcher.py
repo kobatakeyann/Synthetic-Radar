@@ -91,19 +91,20 @@ class Elevation:
         lon_right_edge, lat_bottom_edge = tile_coords_to_northwest_lonlat(
             self.x_lower_right + 1, self.y_lower_right + 1, self.zoom_level
         )
-        tile_num_x = self.elevation_array.shape[1]
-        tile_num_y = self.elevation_array.shape[0]
-        lon_deviation = ((lon_right_edge - lon_left_edge) / tile_num_x) * 0.5
-        lat_deviation = ((lat_bottom_edge - lat_top_edge) / tile_num_y) * 0.5
+        num_x = self.elevation_array.shape[1]
+        num_y = self.elevation_array.shape[0]
+        lon_deviation = ((lon_right_edge - lon_left_edge) / num_x) * 0.5
+        lat_deviation = ((lat_bottom_edge - lat_top_edge) / num_y) * 0.5
         lon_coords = np.linspace(
             lon_left_edge + lon_deviation,
             lon_right_edge + lon_deviation,
-            tile_num_x,
+            num_x,
         )
         lat_coords = np.linspace(
             lat_top_edge + lat_deviation,
             lat_bottom_edge + lat_deviation,
-            tile_num_y,
+            num_y,
         )
         lon_coords, lat_coords = np.meshgrid(lon_coords, lat_coords)
+        print(lat_coords)
         return lon_coords, lat_coords
