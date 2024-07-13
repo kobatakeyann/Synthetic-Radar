@@ -41,7 +41,7 @@ python src/main.py
  
  
 # Note
-作成する画像の解像度は `DPI` により指定します。
+作成する画像の解像度は `/src/constant.py`の`DPI` で指定します。
  
 # License
-![標高地図は国土地理院の提供する数値標高データより作成しています](https://www.gsi.go.jp/kankyochiri/Laser_demimage.html)
+標高地図は国土地理院の提供する数値標高データより作成しています。(https://www.gsi.go.jp/kankyochiri/Laser_demimage.html)
