@@ -16,12 +16,13 @@ from matplotlib.figure import Figure
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from numpy import ndarray
 
-from .calculation import get_cbar_levels
+from .calculation import get_cbar_levels, get_normalization_object
 
 
 class AxesMethod:
     def __init__(self, ax: Axes) -> None:
         self.ax = ax
+        self.levels = get_cbar_levels(DIVIDE_EVENLY)
 
     def set_title(self, title_name: str) -> None:
         self.ax.set_title(title_name, fontsize=TITLE_SIZE)
@@ -32,16 +33,22 @@ class AxesMethod:
             lat,
             data,
             transform=ccrs.PlateCarree(),
-            levels=get_cbar_levels(DIVIDE_EVENLY),
+            levels=self.levels,
             cmap=COLOR_MAP_NAME,
             extend=CBAR_EXTENTION,
+            norm=get_normalization_object(DIVIDE_EVENLY, self.levels),
         )
 
     def plot_colorbar(self) -> None:
         divider = make_axes_locatable(self.ax)
         cax = divider.append_axes("right", size="5%", pad=0.2, axes_class=Axes)
         plt.gcf().add_axes(cax)
-        self.cbar = plt.colorbar(self.shade, cax=cax, orientation="vertical")
+        self.cbar = plt.colorbar(
+            self.shade,
+            cax=cax,
+            orientation="vertical",
+            ticks=self.levels,
+        )
 
     def set_cbar_label(self) -> None:
         self.cbar.set_label(
