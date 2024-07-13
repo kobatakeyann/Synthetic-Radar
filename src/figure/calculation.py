@@ -8,6 +8,7 @@ from constant import (
     SHADE_MAX,
     SHADE_MIN,
 )
+from matplotlib.colors import BoundaryNorm
 from numpy import ndarray
 
 
@@ -26,5 +27,15 @@ def get_cbar_levels(is_divided_evenly: bool) -> ndarray:
             float(SHADE_INTERVAL),
         )
     else:
-        levels = np.logspace(start=0, stop=7, num=8, base=2)
+        levels = np.array([1, 2, 4, 8, 16, 25, 32, 48, 64, 81, 100])
     return levels
+
+
+def get_normalization_object(
+    is_divided_evenly: bool,
+    levels: ndarray,
+) -> None | BoundaryNorm:
+    if is_divided_evenly:
+        return
+    else:
+        return BoundaryNorm(levels, 256)
