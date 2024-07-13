@@ -9,6 +9,7 @@ from constant import (
     CBAR_UNIT,
     COLOR_MAP_NAME,
     DIVIDE_EVENLY,
+    DPI,
     TITLE_SIZE,
 )
 from matplotlib.axes import Axes
@@ -64,4 +65,4 @@ class AxesMethod:
     ) -> None:
         os.makedirs(save_dir, exist_ok=True)
         save_file_path = f"{save_dir}/{file_name}"
-        figure.savefig(save_file_path, dpi=300)
+        figure.savefig(save_file_path, dpi=DPI)
