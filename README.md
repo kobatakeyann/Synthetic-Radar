@@ -4,7 +4,7 @@
 ![](sample_image.jpg)
 
 
-## 仮想環境のactivate
+# 仮想環境のactivate
 ```
 python -m venv .venv
 ```
@@ -16,20 +16,20 @@ source .venv/bin/activate
 source .venv/Scripts/activate
 ```
 
-## Installation
+# Installation
 パッケージのインストール
 ```
 pip install -r requirements.txt
 ```
 
 
-## Usage
-`/src/constant.py`で描画範囲等を設定したのち、
+# Usage
+`src/constant.py`で描画範囲等を設定したのち、
 ```
 python src/main.py
 ```
 を実行して、画像やGifを作成します。<br>
-作成された画像は `/img`下に出力されます。
+作成された画像は `img`下に出力されます。
  
 # Features
 - ### 機能
@@ -41,7 +41,9 @@ python src/main.py
  
  
 # Note
-作成する画像の解像度は `/src/constant.py`の`DPI` で指定します。
- 
+作成する画像の解像度は `src/constant.py`の`DPI` で指定します。
+<br> 
+<br>
+
 # License
 標高地図は国土地理院の提供する数値標高データより作成しています。(https://www.gsi.go.jp/kankyochiri/Laser_demimage.html)
