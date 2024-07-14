@@ -1,14 +1,20 @@
-import glob
-import os
+from glob import glob
+
+from constant import GIF_INTERVAL_TIME
 from PIL import Image
 
-def convert_jpg_to_gif(parent_path,dir_out,gif_name):
+
+def make_gif_from_imgs(img_dir_path: str, saved_gif_path: str) -> None:
     img_array = []
-    for filename in sorted(glob.glob(f"{parent_path}/*.jpg")):
-        img = Image.open(filename)
-        img.thumbnail((1200,800))
+    for img_filename in sorted(glob(f"{img_dir_path}/*.jpg")):
+        img = Image.open(img_filename)
+        img.thumbnail((1200, 800))
         img_array.append(img)
-
-        out_path = os.path.join(dir_out,gif_name)
-
-    img_array[0].save(out_path ,save_all=True, append_images=img_array[1:], optimize=True, duration=90, loop=0)
+    img_array[0].save(
+        saved_gif_path,
+        save_all=True,
+        append_images=img_array[1:],
+        optimize=True,
+        duration=GIF_INTERVAL_TIME,
+        loop=0,
+    )
