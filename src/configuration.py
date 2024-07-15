@@ -1,18 +1,18 @@
 # plot area
-LON_LEFT, LON_RIGHT = 129.87696, 130.4
-LAT_BOTTOM, LAT_TOP = 32.606493, 32.997226
+LON_LEFT, LON_RIGHT = 129.5, 140
+LAT_BOTTOM, LAT_TOP = 30, 40
 
 # colorbar interval
 is_even_intervals = False
 
 # elevation map
 is_elevation_map = False
-ZOOM_LEVEL = 11
+ZOOM_LEVEL = 10
 
 # ticks
 is_deg_min_format = False
-LON_TICKS_INTERVAL = 5
-LAT_TICKS_INTERVAL = 5
+LON_TICKS_INTERVAL = 2
+LAT_TICKS_INTERVAL = 2
 
 # gridline
 is_grid_line = False
