@@ -1,11 +1,11 @@
-from constant import TITLE
+from configuration import TITLE_NAME
 from time_relation.conversion import PaddingDatetime
-from util.path_complement import generate_path
+from util.path import generate_path
 
 
 class TextAquisition(PaddingDatetime):
     def get_title_text(self) -> str:
-        title = f"{self.year}/{self.month}/{self.day} {self.hour}{self.minute}JST  {TITLE}"
+        title = f"{self.year}/{self.month}/{self.day} {self.hour}{self.minute}JST  {TITLE_NAME}"
         return title
 
     def get_save_dir(self) -> str:

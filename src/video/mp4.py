@@ -1,7 +1,7 @@
 from glob import glob
 
 import cv2
-from constant import FPS_OF_VIDEO
+from constant import FPS_RATE
 
 
 def make_mp4_from_imgs(img_dir_path: str, saved_mp4_path: str) -> None:
@@ -16,7 +16,7 @@ def make_mp4_from_imgs(img_dir_path: str, saved_mp4_path: str) -> None:
         filename=saved_mp4_path,
         apiPreference=cv2.CAP_FFMPEG,
         fourcc=cv2.VideoWriter_fourcc(*"mp4v"),
-        fps=FPS_OF_VIDEO,
+        fps=FPS_RATE,
         frameSize=size,
     )
 

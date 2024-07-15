@@ -3,20 +3,22 @@ import cartopy.io.shapereader as shapereader
 import numpy as np
 from cartopy.mpl.geoaxes import GeoAxes
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
-from constant import (
-    CONTOUR_COLOR,
-    CONTOUR_LABEL_SIZE,
-    CONTOUR_WIDTH,
-    GRIDLINE_COLOR,
-    GRIDLINE_WIDTH,
+from configuration import (
     LAT_BOTTOM,
     LAT_TICKS_INTERVAL,
     LAT_TOP,
     LON_LEFT,
     LON_RIGHT,
     LON_TICKS_INTERVAL,
-    PLOT_ELEVATION_LABEL,
     ZOOM_LEVEL,
+)
+from constant import (
+    CONTOUR_COLOR,
+    CONTOUR_LABEL_SIZE,
+    CONTOUR_WIDTH,
+    GRIDLINE_COLOR,
+    GRIDLINE_WIDTH,
+    is_labled_contour,
 )
 from elevation.elevation_fetcher import Elevation
 
@@ -68,7 +70,7 @@ class MapAxesMethod:
             linewidths=CONTOUR_WIDTH,
             colors=CONTOUR_COLOR,
         )
-        if PLOT_ELEVATION_LABEL:
+        if is_labled_contour:
             self.ax.clabel(
                 self.contours,
                 levels=get_clabel_levels(),

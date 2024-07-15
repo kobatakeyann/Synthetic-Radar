@@ -2,15 +2,13 @@ import os
 
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+from configuration import DPI, TITLE_SIZE, is_even_intervals
 from constant import (
     CBAR_EXTENTION,
     CBAR_LABEL_LOCATION,
     CBAR_LABEL_SIZE,
     CBAR_UNIT,
     COLOR_MAP_NAME,
-    DIVIDE_EVENLY,
-    DPI,
-    TITLE_SIZE,
 )
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -23,7 +21,7 @@ from .calculation import get_cbar_levels, get_normalization_object
 class AxesMethod:
     def __init__(self, ax: Axes) -> None:
         self.ax = ax
-        self.levels = get_cbar_levels(DIVIDE_EVENLY)
+        self.levels = get_cbar_levels(is_even_intervals)
 
     def set_title(self, title_name: str) -> None:
         self.ax.set_title(title_name, fontsize=TITLE_SIZE)
@@ -37,7 +35,7 @@ class AxesMethod:
             levels=self.levels,
             cmap=COLOR_MAP_NAME,
             extend=CBAR_EXTENTION,
-            norm=get_normalization_object(DIVIDE_EVENLY, self.levels),
+            norm=get_normalization_object(is_even_intervals, self.levels),
         )
 
     def plot_colorbar(self) -> None:

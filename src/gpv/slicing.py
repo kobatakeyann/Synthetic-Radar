@@ -2,7 +2,7 @@ from bisect import bisect_left
 from datetime import datetime
 
 import numpy as np
-from constant import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
+from configuration import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
 from nakametpy.jma import get_jmara_lat, get_jmara_lon
 from numpy import ndarray
 

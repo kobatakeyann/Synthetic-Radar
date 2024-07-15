@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 
 # Usage
-`src/constant.py`で描画範囲等を設定したのち、
+`src/configuration.py`で描画範囲等を設定したのち、
 ```
 python src/main.py
 ```
@@ -41,7 +41,7 @@ python src/main.py
  
  
 # Note
-作成する画像の解像度は `src/constant.py`の`DPI` で指定します。
+図の詳細な設定を変更したい場合は `src/constant.py`の値を変更してください。
 <br> 
 <br>
 
