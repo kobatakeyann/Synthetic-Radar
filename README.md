@@ -1,7 +1,7 @@
 # Synthetic Radar
 10分毎の雨雲レーダーエコー図を作成します。
 
-![](sample_image.jpg)
+![](sample.gif)
 
 
 # 仮想環境のactivate
