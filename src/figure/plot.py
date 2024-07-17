@@ -3,6 +3,7 @@ from datetime import datetime
 
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+from configuration import is_mp4_making
 from gif.gif import make_gif_from_imgs
 from gpv.slicing import GPV
 from map.base_map import make_base_map
@@ -61,9 +62,10 @@ class FigureFactory:
                 make_gif_from_imgs(
                     self.save_dir, f"{self.save_dir}/{gif_filename}"
                 )
-                print("Now making mp4 …")
-                make_mp4_from_imgs(
-                    self.save_dir, f"{self.save_dir}/{video_filename}"
-                )
+                if is_mp4_making:
+                    print("Now making mp4 …")
+                    make_mp4_from_imgs(
+                        self.save_dir, f"{self.save_dir}/{video_filename}"
+                    )
                 print("Successfully Completed!")
-        print("All files are successfully made!")
+        print("All Images are successfully made!")
