@@ -2,7 +2,6 @@ import numpy as np
 from configuration import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
 from constant import SHADE_INTERVAL, SHADE_MAX, SHADE_MIN
 from matplotlib.colors import BoundaryNorm
-from numpy import ndarray
 
 
 def calculate_figsize() -> tuple:
@@ -12,7 +11,7 @@ def calculate_figsize() -> tuple:
     return figsize
 
 
-def get_cbar_levels(is_even_intervals: bool) -> ndarray:
+def get_cbar_levels(is_even_intervals: bool) -> np.ndarray:
     if is_even_intervals:
         levels = np.arange(
             float(SHADE_MIN),
@@ -26,7 +25,7 @@ def get_cbar_levels(is_even_intervals: bool) -> ndarray:
 
 def get_normalization_object(
     is_divided_evenly: bool,
-    levels: ndarray,
+    levels: np.ndarray,
 ) -> None | BoundaryNorm:
     if is_divided_evenly:
         return

@@ -2,6 +2,7 @@ import os
 
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import numpy as np
 from configuration import DPI, TITLE_SIZE, is_even_intervals
 from constant import (
     CBAR_EXTENTION,
@@ -13,7 +14,6 @@ from constant import (
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from numpy import ndarray
 
 from .calculation import get_cbar_levels, get_normalization_object
 
@@ -26,7 +26,9 @@ class AxesMethod:
     def set_title(self, title_name: str) -> None:
         self.ax.set_title(title_name, fontsize=TITLE_SIZE)
 
-    def plot_shading(self, lon: ndarray, lat: ndarray, data: ndarray) -> None:
+    def plot_shading(
+        self, lon: np.ndarray, lat: np.ndarray, data: np.ndarray
+    ) -> None:
         self.shade = self.ax.contourf(
             lon,
             lat,

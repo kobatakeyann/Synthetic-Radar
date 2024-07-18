@@ -5,10 +5,9 @@ from constant import (
     ELEVATION_MAX,
     ELEVATION_MIN,
 )
-from numpy import ndarray
 
 
-def get_contour_levels() -> ndarray:
+def get_contour_levels() -> np.ndarray:
     levels = np.arange(
         float(ELEVATION_MIN),
         float(ELEVATION_MAX) + 0.000000000000001,
@@ -17,7 +16,7 @@ def get_contour_levels() -> ndarray:
     return levels
 
 
-def get_clabel_levels() -> ndarray:
+def get_clabel_levels() -> np.ndarray:
     levels = np.arange(
         float(ELEVATION_MIN),
         float(ELEVATION_MAX) + 0.000000000000001,
