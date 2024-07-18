@@ -4,7 +4,6 @@ from urllib.error import HTTPError
 import numpy as np
 import pandas as pd
 from api.api_calling import fetch_data
-from numpy import ndarray
 
 from .coordinate_conversion import (
     lonlat_to_tile_coords,
@@ -29,7 +28,7 @@ class Elevation:
         )
         self.zoom_level = zoom_level
 
-    def get_elevation_array(self, x: int, y: int) -> ndarray:
+    def get_elevation_array(self, x: int, y: int) -> np.ndarray:
         """Acquire elevation array of one tile from Geographical Survey Institute.
 
         Args:
@@ -38,7 +37,7 @@ class Elevation:
             zoom_level (int): Zoom level in Tile Coordinates
 
         Returns:
-            ndarray: elevation array of the tile designated by coordinate(x,y)
+            np.ndarray: elevation array of the tile designated by coordinate(x,y)
         """
         url = f"http://cyberjapandata.gsi.go.jp/xyz/dem/{self.zoom_level}/{x}/{y}.txt"
         try:
@@ -62,7 +61,7 @@ class Elevation:
 
     def get_concatted_array(
         self,
-    ) -> ndarray:
+    ) -> np.ndarray:
 
         array_concatted_in_x = np.array([])
         for x in range(self.x_upper_left, self.x_lower_right + 1):
@@ -84,7 +83,7 @@ class Elevation:
         self.elevation_array = array_concatted_in_x
         return self.elevation_array
 
-    def get_coordinates_for_plot(self) -> tuple[ndarray, ndarray]:
+    def get_coordinates_for_plot(self) -> tuple[np.ndarray, np.ndarray]:
         lon_left_edge, lat_top_edge = tile_coords_to_northwest_lonlat(
             self.x_upper_left, self.y_upper_left, self.zoom_level
         )

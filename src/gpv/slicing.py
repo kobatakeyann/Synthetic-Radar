@@ -4,7 +4,6 @@ from datetime import datetime
 import numpy as np
 from configuration import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
 from nakametpy.jma import get_jmara_lat, get_jmara_lon
-from numpy import ndarray
 
 from .gpv_fetcher import get_jma_gpv
 
@@ -21,7 +20,7 @@ class GPV:
         self.y_index_start = bisect_left(self.jmara_lat_array, LAT_BOTTOM) - 10
         self.y_index_end = bisect_left(self.jmara_lat_array, LAT_TOP) + 10
 
-    def get_coords_for_plot(self) -> tuple[ndarray, ndarray]:
+    def get_coords_for_plot(self) -> tuple[np.ndarray, np.ndarray]:
         sliced_lat = self.jmara_lat_array[
             self.y_index_start : self.y_index_end
         ]
@@ -33,7 +32,7 @@ class GPV:
 
     def get_sliced_precipitation_array(
         self, utc_datetime: datetime
-    ) -> ndarray:
+    ) -> np.ndarray:
         precipitation_array = get_jma_gpv(utc_datetime)
         sliced_precipitation = precipitation_array[
             self.y_index_start : self.y_index_end,
