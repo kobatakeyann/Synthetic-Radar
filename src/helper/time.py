@@ -15,7 +15,8 @@ class PaddingDatetime:
         return str(datatime_factor).zfill(digit)
 
 
-def jst_to_utc(datetime) -> datetime:
-    time_difference = timedelta(hours=9)
-    utc_dt = datetime - time_difference
+def jst_to_utc(jst_dt) -> datetime:
+    TIME_DIFFERENCE = 9
+    difference = timedelta(hours=TIME_DIFFERENCE)
+    utc_dt = jst_dt - difference
     return utc_dt
