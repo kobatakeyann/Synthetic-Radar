@@ -3,6 +3,7 @@ import cartopy.io.shapereader as shapereader
 import numpy as np
 from cartopy.mpl.geoaxes import GeoAxes
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
+
 from configuration import (
     LAT_BOTTOM,
     LAT_TICKS_INTERVAL,
@@ -21,9 +22,8 @@ from constant import (
     is_labled_contour,
 )
 from elevation.elevation_fetcher import Elevation
-
-from .lat_lon_formatter import format_latitude, format_longitude
-from .level_calculation import get_clabel_levels, get_contour_levels
+from map.lat_lon_formatter import format_latitude, format_longitude
+from map.level_calculation import get_clabel_levels, get_contour_levels
 
 
 class MapAxesMethod:

@@ -3,9 +3,9 @@ from urllib.error import HTTPError
 
 import numpy as np
 import pandas as pd
-from api.data_fetcher import fetch_data
 
-from .coordinate_conversion import (
+from api.data_fetcher import fetch_data
+from elevation.coordinate_conversion import (
     lonlat_to_tile_coords,
     tile_coords_to_northwest_lonlat,
 )

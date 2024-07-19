@@ -3,6 +3,10 @@ import os
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
 from configuration import DPI, TITLE_SIZE, is_even_intervals
 from constant import (
     CBAR_EXTENTION,
@@ -11,11 +15,7 @@ from constant import (
     CBAR_UNIT,
     COLOR_MAP_NAME,
 )
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-
-from .calculation import get_cbar_levels, get_normalization_object
+from figure.calculation import get_cbar_levels, get_normalization_object
 
 
 class AxesMethod:

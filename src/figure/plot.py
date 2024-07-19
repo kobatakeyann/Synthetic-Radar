@@ -3,17 +3,17 @@ from datetime import datetime
 
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+from pandas import DatetimeIndex
+
 from configuration import is_mp4_making
+from figure.calculation import calculate_figsize
+from figure.method import AxesMethod
+from figure.text_handling import TextAquisition
 from gif.gif import make_gif_from_imgs
 from gpv.slicing import GPV
 from map.base_map import make_base_map
-from pandas import DatetimeIndex
 from time_relation.conversion import jst_to_utc
 from video.mp4 import make_mp4_from_imgs
-
-from .calculation import calculate_figsize
-from .method import AxesMethod
-from .text_handling import TextAquisition
 
 
 class FigureFactory:

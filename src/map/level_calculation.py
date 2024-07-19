@@ -1,4 +1,5 @@
 import numpy as np
+
 from constant import (
     CONTOUR_LABEL_INTERVAL,
     ELEVATION_INTERVAL,

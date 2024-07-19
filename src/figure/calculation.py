@@ -1,7 +1,8 @@
 import numpy as np
+from matplotlib.colors import BoundaryNorm
+
 from configuration import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
 from constant import SHADE_INTERVAL, SHADE_MAX, SHADE_MIN
-from matplotlib.colors import BoundaryNorm
 
 
 def calculate_figsize() -> tuple:
