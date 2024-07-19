@@ -11,8 +11,8 @@ from figure.method import AxesMethod
 from figure.text_handling import TextAquisition
 from gif.gif import make_gif_from_imgs
 from gpv.slicing import GPV
+from helper.time import jst_to_utc
 from map.base_map import make_base_map
-from time_relation.conversion import jst_to_utc
 from video.mp4 import make_mp4_from_imgs
 
 
