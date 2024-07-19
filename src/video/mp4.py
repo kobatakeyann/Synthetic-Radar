@@ -1,6 +1,7 @@
 from glob import glob
 
 import cv2
+
 from constant import FPS_RATE
 
 

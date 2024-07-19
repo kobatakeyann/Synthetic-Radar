@@ -2,10 +2,10 @@ from bisect import bisect_left
 from datetime import datetime
 
 import numpy as np
-from configuration import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
 from nakametpy.jma import get_jmara_lat, get_jmara_lon
 
-from .gpv_fetcher import get_jma_gpv
+from configuration import LAT_BOTTOM, LAT_TOP, LON_LEFT, LON_RIGHT
+from gpv.gpv_fetcher import get_jma_gpv
 
 
 class GPV:

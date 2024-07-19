@@ -1,7 +1,7 @@
 from cartopy.mpl.geoaxes import GeoAxes
-from configuration import is_deg_min_format, is_elevation_map, is_grid_line
 
-from .axes import MapAxesMethod
+from configuration import is_deg_min_format, is_elevation_map, is_grid_line
+from map.axes import MapAxesMethod
 
 
 def make_base_map(ax: GeoAxes) -> GeoAxes:

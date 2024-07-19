@@ -1,9 +1,10 @@
 from datetime import datetime
 from tempfile import NamedTemporaryFile
 
-from api.data_fetcher import fetch_data
 from nakametpy.jma import load_jmara_grib2
 from numpy.ma import MaskedArray
+
+from api.data_fetcher import fetch_data
 from time_relation.conversion import PaddingDatetime
 
 

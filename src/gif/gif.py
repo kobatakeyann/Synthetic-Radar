@@ -1,7 +1,8 @@
 from glob import glob
 
-from constant import GIF_INTERVAL
 from PIL import Image
+
+from constant import GIF_INTERVAL
 
 
 def make_gif_from_imgs(img_dir_path: str, saved_gif_path: str) -> None:
