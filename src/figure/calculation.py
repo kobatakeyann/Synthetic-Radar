@@ -31,4 +31,4 @@ def get_normalization_object(
     if is_divided_evenly:
         return
     else:
-        return BoundaryNorm(levels, 256)
+        return BoundaryNorm(levels, 256, extend="max")
