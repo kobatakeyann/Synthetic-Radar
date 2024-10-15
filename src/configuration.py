@@ -10,7 +10,7 @@ is_elevation_map = False
 ZOOM_LEVEL = 8
 
 # ticks
-is_deg_min_format = True
+is_deg_min_format = False
 LON_TICKS_INTERVAL = 1
 LAT_TICKS_INTERVAL = 1
 
