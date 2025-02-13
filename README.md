@@ -5,18 +5,10 @@
 
 
 # 仮想環境のactivate
-```
+via venv
+```bash
 python -m venv .venv
-```
-
-```
-#Linux
 source .venv/bin/activate
-```
-
-# Installation
-パッケージのインストール
-```
 pip install -r requirements.txt
 ```
 
